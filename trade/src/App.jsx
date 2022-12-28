@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import reactLogo from './assets/react.svg'
 import './App.css'
 import './index.css'
 import axios from 'axios';
@@ -11,14 +10,14 @@ import { BsFillPersonCheckFill } from 'react-icons/bs';
 
 function App() {
   useEffect(() => {
-    axios.get(`http://a0754783.xsph.ru`).then(res => {
+    axios.get("http://a0754783.xsph.ru").then(res => {
       setActiveClient(res.data.clients)
       setCount(res.data.time)
     })
 
     // **с периодичностью в секунду отправлять запрос на время, получать готовое время с сервера и отображать
     setInterval(() => {
-      axios.get(`http://a0754783.xsph.ru`).then(res => {
+      axios.get("http://a0754783.xsph.ru").then(res => {
         setActiveClient(res.data.clients)
         setCount(res.data.time)
       })
