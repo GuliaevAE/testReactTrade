@@ -11,7 +11,7 @@ import { BsFillPersonCheckFill } from 'react-icons/bs';
 function App() {
   let timer = null
   useEffect(() => {
-    axios.get("http://a0754783.xsph.ru").then(res => {
+    axios.get("https://a0754783.xsph.ru").then(res => {
       dataProcessing(res)
     })
   }, [])
@@ -21,6 +21,7 @@ function App() {
   function dataProcessing(res) {
     setActiveClient(res.data.clients)
     countdownTimer(new Date(res.data.after))
+
     timer = setInterval(() => {
       let before = new Date()
       let after = new Date(res.data.after)
@@ -161,8 +162,7 @@ function App() {
       client4: false,
     }
     obj[`client${id + 1}`] = true
-    clearInterval(timer)
-    timer = null
+   
     // axios.post(`http://a0754783.xsph.ru`, { actClients: obj }).then(res=>dataProcessing(res))
   }
 
