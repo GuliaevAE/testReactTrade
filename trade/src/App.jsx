@@ -9,23 +9,43 @@ import { BsFillPersonCheckFill } from 'react-icons/bs';
 
 
 function App() {
+  let timer = null
   useEffect(() => {
     axios.get("http://a0754783.xsph.ru").then(res => {
-      setActiveClient(res.data.clients)
-      setCount(res.data.time)
+      dataProcessing(res)
     })
-
-    // **с периодичностью в секунду отправлять запрос на время, получать готовое время с сервера и отображать
-    setInterval(() => {
-      axios.get("http://a0754783.xsph.ru").then(res => {
-        setActiveClient(res.data.clients)
-        setCount(res.data.time)
-      })
-    }, 1000)
-
   }, [])
 
+  useEffect(()=>{},[])
+
+  function dataProcessing(res) {
+    setActiveClient(res.data.clients)
+    countdownTimer(new Date(res.data.after))
+    timer = setInterval(() => {
+      let before = new Date()
+      let after = new Date(res.data.after)
+      if (before >= after) {
+        clearInterval(timer)
+      } else {
+        console.log('t')
+        countdownTimer(new Date(res.data.after))
+      }
+    }, 1000)
+  }
+
   const [count, setCount] = useState(0)
+
+  function countdownTimer(after) {
+    let before = new Date()
+    const diff = after - before;
+    const hours = diff > 0 ? Math.floor(diff / 1000 / 60 / 60) % 24 : 0;
+    const minutes = diff > 0 ? Math.floor(diff / 1000 / 60) % 60 : 0;
+    const seconds = diff > 0 ? Math.floor(diff / 1000) % 60 : 0;
+    const hours1 = hours < 10 ? '0' + hours : hours;
+    const minutes1 = minutes < 10 ? '0' + minutes : minutes;
+    const seconds1 = seconds < 10 ? '0' + seconds : seconds;
+    setCount(hours1 + ':' + minutes1 + ':' + seconds1)
+  }
 
   let values = {
     p1: 'Наличие комплекса мероприятий, повышающих стандарты качества изготовления',
@@ -141,8 +161,9 @@ function App() {
       client4: false,
     }
     obj[`client${id + 1}`] = true
-   
-    axios.post(`http://a0754783.xsph.ru`, { actClients: obj })
+    clearInterval(timer)
+    timer = null
+    // axios.post(`http://a0754783.xsph.ru`, { actClients: obj }).then(res=>dataProcessing(res))
   }
 
 
