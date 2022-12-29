@@ -11,7 +11,7 @@ import { BsFillPersonCheckFill } from 'react-icons/bs';
 function App() {
   let timer = null
   useEffect(() => {
-    axios.get("http://a0754783.xsph.ru").then(res => {
+    axios.get("https://a0754783.xsph.ru").then(res => {
       dataProcessing(res)
     })
   }, [])
