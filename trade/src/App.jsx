@@ -9,14 +9,13 @@ import { BsFillPersonCheckFill } from 'react-icons/bs';
 
 
 function App() {
-  let timer = null
+  let timer
   useEffect(() => {
-    fetch("https://a0754783.xsph.ru").then(res => {
+    const asd = 'http://a0754783.xsph.ru'
+    axios(asd+'').then(res => {
       dataProcessing(res)
     })
   }, [])
-
-  useEffect(()=>{},[])
 
   function dataProcessing(res) {
     setActiveClient(res.data.clients)
@@ -28,7 +27,6 @@ function App() {
       if (before >= after) {
         clearInterval(timer)
       } else {
-        console.log('t')
         countdownTimer(new Date(res.data.after))
       }
     }, 1000)
